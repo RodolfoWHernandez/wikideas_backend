@@ -4,7 +4,8 @@ const dotenv = require('dotenv')
 dotenv.config({path:'./.env'})
 
 const stringConexion = process.env.DATABASE_URL;
-console.log(stringConexion);
+
+//Client
 const cliente = new MongoDb.MongoClient(stringConexion,
     {
         useNewUrlParser: true,
@@ -14,10 +15,7 @@ const cliente = new MongoDb.MongoClient(stringConexion,
 let conexion;
 
 conexionBD = ()=>{
-    console.log('init');
    cliente.connect((error,db)=>{
-    console.log('process connect');
-
         if(error){
             console.error("Error en la conexion a la db")
             return "Error"
