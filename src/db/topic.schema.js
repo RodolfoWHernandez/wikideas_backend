@@ -2,12 +2,28 @@ const mongoose = require('mongoose')
 
 //Schema Topic
 const topicSchema = new mongoose.Schema({
-    _id: Number,
-    title: String,
-    description: String,
-    image: String,
-    publishDate: Date,
-    tags: Array
+    _id: {
+        type: Number,
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String
+    },
+    publishDate: {
+        type: Date,
+        required: true
+    },
+    tags: {
+        type: Array
+    }
 },
 
 {
