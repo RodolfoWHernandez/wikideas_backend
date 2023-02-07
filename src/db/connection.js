@@ -11,8 +11,8 @@ mongoose.connect(stringConexion, {
 mongoose.set('strictQuery', false);
 
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:')); // enlaza el track de error a la consola (proceso actual)
+db.on('error', console.error.bind(console, 'Connection error:')); // Error en conexión
 db.once('open', () => {
-  console.log('connected'); // si esta todo ok, imprime esto
+  console.log('Connected'); // Conexión exitosa
 });
 

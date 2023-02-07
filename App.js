@@ -1,11 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
-//const conexionBD = require('./src/db/db');
 const topicRoutes = require('./src/routes/topic.routes')
 require('./src/db/connection')
-
-
 
 //Configuration the .env file
 dotenv.config();
@@ -29,12 +26,11 @@ app.get('/hello', (req, res) =>{
     )
 })
 
+//Routes
 app.use('/topics', topicRoutes)
 
+//Port listening
 app.listen(8000, ()=>{
     console.log(`Express server. Running at http://localhost:${port}`)
 })
 
-
-//conexionBD.conexionBD()
-//conectionBD.conectionBD()
