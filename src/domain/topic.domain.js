@@ -1,4 +1,4 @@
-const topicModel = require('../db/topic.models')
+const topicModel = require('../db/topic.schema')
 
 exports.getAll = async function () {
     try{
