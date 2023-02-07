@@ -8,3 +8,12 @@ exports.getAll = async function () {
         return null
     }
 }
+
+exports.save = async function (topicObj) {
+    try {
+        const topic = topicModel.save(topicObj)
+        return topic;
+    } catch (error) {
+        return null;
+    }
+}

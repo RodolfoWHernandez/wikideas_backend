@@ -10,3 +10,12 @@ exports.getAll = async function (req, res){
         })
     }
 }
+
+exports.save = async function (req, res) {
+    try {
+        const topic = topicDomain.save(req.body);
+        res.status(200).json(topic);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
