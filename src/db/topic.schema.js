@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const topicSchema = new mongoose.Schema({
     _id: {
         type: Number,
+        unique: true,
+        min: 1,
         required: true
     },
     title: {
@@ -19,6 +21,7 @@ const topicSchema = new mongoose.Schema({
     },
     publishDate: {
         type: Date,
+        default: Date.now,
         required: true
     },
     tags: {
@@ -33,7 +36,17 @@ const topicSchema = new mongoose.Schema({
 }
 )
 
+//Model topic
 const Topic = mongoose.model('Topic', topicSchema);
+
+//Counter id schema
+const counterSchema = new mongoose.Schema({
+    _id : String,
+    sequence_value: Number
+})
+
+//Model Counter 
+const Counter = mongoose.model('Counter', counterSchema)
 
 //Get all Topics
 const getAll = async()=>{
@@ -46,14 +59,22 @@ const get = async(object)=>{
     return await Topic.findOne(filtro)  
 }
 
+//Counter id and update counter
+const counterId = async(callback)=>{
+    const filtro = { _id: "topicid" }
+    delete id;
+    let newCounter = await Counter.findOneAndUpdate(filtro, { upsert:true, $inc:{sequence_value:1}}, callback)
+    return newCounter.sequence_value
+}
+
 //Create new Topic
 const save = async(object)=>{
+    const id = await counterId()
     const newTopic = new Topic({
-        _id: object.id,
+        _id: id,
         title: object.title,
         description: object.description,
         image: object.image,
-        publishDate: new Date(),
         tags: object.tags
 
     })
