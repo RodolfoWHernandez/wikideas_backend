@@ -24,6 +24,9 @@ const topicSchema = new mongoose.Schema({
         default: Date.now,
         required: true
     },
+    updateDate: {
+        type: Date
+    },
     tags: {
         type: Array
     }
@@ -76,17 +79,16 @@ const save = async(object)=>{
         description: object.description,
         image: object.image,
         tags: object.tags
-
     })
     await newTopic.save()
 }
 
 //Update Topic for id
-const update = async(object, callback)=>{
+const update = async(object, updateDate, callback)=>{
     const filtro = { _id: Number(object.id) }
     delete object.id;
     const operacion = {
-        $set:object
+        $set: {object, updateDate: updateDate}
     }
     return await Topic.findOneAndUpdate(filtro, operacion,{ upsert:true}, callback)
 }

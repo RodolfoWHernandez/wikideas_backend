@@ -28,8 +28,9 @@ exports.save = async function (topicObj) {
 }
 
 exports.update = async function (topicObj) {
+    let updateDate = new Date
     try {
-        const topic = await topicModel.update(topicObj)
+        const topic = await topicModel.update(topicObj, updateDate)
         return topic;
     } catch (error) {
         return null;
