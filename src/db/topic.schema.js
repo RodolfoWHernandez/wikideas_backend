@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+const categories = ["Cultura y arte", "Filosofía y pensamiento", "Geografía", "Personas", "Tecnología", "Ciencias sociales", "Ciencias Naturales", "Política", "Religión"]
 //Schema Topic
 const topicSchema = new mongoose.Schema({
     _id: {
@@ -29,6 +30,16 @@ const topicSchema = new mongoose.Schema({
     },
     tags: {
         type: Array
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        default: function () {
+            return categories[Math.floor(Math.random() * categories.length)]
+        }
     }
 },
 
@@ -65,7 +76,7 @@ const get = async(object)=>{
 //Counter id and update counter
 const counterId = async(callback)=>{
     const filtro = { _id: "topicid" }
-    delete id;
+    //delete id;
     let newCounter = await Counter.findOneAndUpdate(filtro, { upsert:true, $inc:{sequence_value:1}}, callback)
     return newCounter.sequence_value
 }
@@ -78,7 +89,8 @@ const save = async(object)=>{
         title: object.title,
         description: object.description,
         image: object.image,
-        tags: object.tags
+        tags: object.tags,
+        author: object.author
     })
     await newTopic.save()
 }
