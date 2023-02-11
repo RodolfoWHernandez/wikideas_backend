@@ -4,10 +4,8 @@
   "description": "",
   "main": "App.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build", 
-    "start": "next start",
-    "lint": "next lint"
+    "start": "node App.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
