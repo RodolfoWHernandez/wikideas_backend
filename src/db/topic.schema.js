@@ -99,10 +99,9 @@ const save = async(object)=>{
 const update = async(object, updateDate, callback)=>{
     const filtro = { _id: Number(object.id) }
     delete object.id;
-    const operacion = {
-        $set: {object, updateDate: updateDate}
-    }
-    return await Topic.findOneAndUpdate(filtro, operacion,{ upsert:true}, callback)
+    object.updateDate = updateDate
+    return await Topic.findOneAndUpdate(filtro, object, callback)
+
 }
 
 //Delete one Topic
