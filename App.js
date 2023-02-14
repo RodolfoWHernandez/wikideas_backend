@@ -32,7 +32,7 @@ app.get('/hello', (req, res) =>{
 app.use('/topics', topicRoutes)
 
 //Port listening
-app.listen(8000, ()=>{
+app.listen(port, ()=>{
     console.log(`Express server. Running at http://localhost:${port}`)
 })
 

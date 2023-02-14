@@ -2,7 +2,8 @@ const topicDomain = require('../domain/topic.domain')
 
 exports.getAll = async function (req, res){
     try{
-        let topicsList = await topicDomain.getAll();
+        const { limit } = req.query
+        let topicsList = await topicDomain.getAll(limit);
         res.status(200).json(topicsList)
     } catch(error){
         res.status(404).json({

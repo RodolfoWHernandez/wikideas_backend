@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const categories = ["Cultura y arte", "Filosofía y pensamiento", "Geografía", "Personas", "Tecnología", "Ciencias sociales", "Ciencias Naturales", "Política", "Religión"]
 //Schema Topic
@@ -63,7 +63,10 @@ const counterSchema = new mongoose.Schema({
 const Counter = mongoose.model('Counter', counterSchema)
 
 //Get all Topics
-const getAll = async()=>{
+const getAll = async(limit)=>{
+    if(limit){
+        return await Topic.find().limit(limit)
+    }
     return await Topic.find()
 }
 
