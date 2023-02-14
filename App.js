@@ -29,7 +29,9 @@ app.get('/hello', (req, res) =>{
 })
 
 //Routes
-app.use('/topics', topicRoutes)
+const router = express.Router()
+app.use('/api/v1', router)
+router.use('/topics', topicRoutes)
 
 //Port listening
 app.listen(port, ()=>{
