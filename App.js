@@ -32,7 +32,7 @@ app.get('/hello', (req, res) =>{
 //Routes
 const router = express.Router()
 app.use('/api/v1', router)
-app.use('/categorys', categoryRoutes)
+router.use('/categories', categoryRoutes)
 router.use('/topics', topicRoutes)
 
 //Port listening

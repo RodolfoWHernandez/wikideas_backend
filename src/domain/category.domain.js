@@ -2,8 +2,8 @@ const categoryModel = require('../db/category.schema')
 
 exports.getAll = async function () {
     try{
-        const categorys = await categoryModel.getAll()
-        return categorys;
+        const categories = await categoryModel.getAll()
+        return categories;
     } catch(error){
         return null
     }

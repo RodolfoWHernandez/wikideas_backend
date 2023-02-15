@@ -43,14 +43,11 @@ const get = async(object)=>{
 //Create new Category
 const save = async(object)=>{
     const id = await counterId.counterId("categoryid")
-    console.log(id);
     const newCategory = new Category({
-        _id: object.id,
+        _id: id,
         title: object.title,
         description: object.description,
-        tags: object.tags,
-        topics: object.topics
-
+        tags: object.tags
     })
     await newCategory.save()
 }

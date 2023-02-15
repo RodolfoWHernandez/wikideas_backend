@@ -71,7 +71,6 @@ const get = async(object)=>{
 //Create new Topic
 const save = async(object)=>{
     const id = await counterId.counterId("topicid")
-    console.log(id);
     const newTopic = new Topic({
         _id: id,
         title: object.title,
@@ -80,7 +79,6 @@ const save = async(object)=>{
         tags: object.tags,
         author: object.author
     })
-    console.log(newTopic);
     await newTopic.save()
 }
 
