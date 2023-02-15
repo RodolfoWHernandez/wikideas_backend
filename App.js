@@ -3,6 +3,7 @@ var cors = require('cors');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const topicRoutes = require('./src/routes/topic.routes')
+const categoryRoutes = require('./src/routes/category.routes')
 require('./src/db/connection')
 
 //Configuration the .env file
@@ -31,6 +32,7 @@ app.get('/hello', (req, res) =>{
 //Routes
 const router = express.Router()
 app.use('/api/v1', router)
+app.use('/categorys', categoryRoutes)
 router.use('/topics', topicRoutes)
 
 //Port listening

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const counterId = require('./counter.schema')
 
 const categories = ["Cultura y arte", "Filosofía y pensamiento", "Geografía", "Personas", "Tecnología", "Ciencias sociales", "Ciencias Naturales", "Política", "Religión"]
 //Schema Topic
@@ -53,15 +54,6 @@ const topicSchema = new mongoose.Schema({
 //Model topic
 const Topic = mongoose.model('Topic', topicSchema);
 
-//Counter id schema
-const counterSchema = new mongoose.Schema({
-    _id : String,
-    sequence_value: Number
-})
-
-//Model Counter 
-const Counter = mongoose.model('Counter', counterSchema)
-
 //Get all Topics
 const getAll = async(limit)=>{
     if(limit){
@@ -76,17 +68,10 @@ const get = async(object)=>{
     return await Topic.findOne(filtro)  
 }
 
-//Counter id and update counter
-const counterId = async(callback)=>{
-    const filtro = { _id: "topicid" }
-    //delete id;
-    let newCounter = await Counter.findOneAndUpdate(filtro, { upsert:true, $inc:{sequence_value:1}}, callback)
-    return newCounter.sequence_value
-}
-
 //Create new Topic
 const save = async(object)=>{
-    const id = await counterId()
+    const id = await counterId.counterId("topicid")
+    console.log(id);
     const newTopic = new Topic({
         _id: id,
         title: object.title,
@@ -95,6 +80,7 @@ const save = async(object)=>{
         tags: object.tags,
         author: object.author
     })
+    console.log(newTopic);
     await newTopic.save()
 }
 
