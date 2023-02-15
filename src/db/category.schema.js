@@ -27,7 +27,7 @@ const categorySchema = new mongoose.Schema({
 }
 )
 
-const Category = mongoose.model('Categorys', categorySchema);
+const Category = mongoose.model('Categories', categorySchema);
 
 //Get all Categorys
 const getAll = async()=>{
