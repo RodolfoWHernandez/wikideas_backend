@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const counterId = require('./counter.schema')
+const Category = require('./category.schema')
 
-const categories = ["Cultura y arte", "Filosofía y pensamiento", "Geografía", "Personas", "Tecnología", "Ciencias sociales", "Ciencias Naturales", "Política", "Religión"]
+//const categories = ["Cultura y arte", "Filosofía y pensamiento", "Geografía", "Personas", "Tecnología", "Ciencias sociales", "Ciencias Naturales", "Política", "Religión"]
+
 //Schema Topic
 const topicSchema = new mongoose.Schema({
     _id: {
@@ -37,10 +39,9 @@ const topicSchema = new mongoose.Schema({
         required: true
     },
     category: {
-        type: String,
-        default: function () {
-            return categories[Math.floor(Math.random() * categories.length)]
-        }
+        type: Number,
+        ref: Category.Category,
+        required: true
     }
 },
 
@@ -51,21 +52,24 @@ const topicSchema = new mongoose.Schema({
 }
 )
 
+//Autopopulate
+//topicSchema.plugin(require('mongoose-autopopulate'))
+
 //Model topic
 const Topic = mongoose.model('Topic', topicSchema);
 
 //Get all Topics
 const getAll = async(limit)=>{
     if(limit){
-        return await Topic.find().limit(limit)
+        return await Topic.find().limit(limit).populate({path: 'category', select: 'title'})
     }
-    return await Topic.find()
+    return await Topic.find().populate({path: 'category', select: 'title'})
 }
 
 //Get one Topic for id
 const get = async(object)=>{
     const filtro = {_id: Number(object.id)}
-    return await Topic.findOne(filtro)  
+    return await Topic.findOne(filtro).populate({path: 'category', select: 'title'})
 }
 
 //Create new Topic
@@ -77,7 +81,8 @@ const save = async(object)=>{
         description: object.description,
         image: object.image,
         tags: object.tags,
-        author: object.author
+        author: object.author,
+        category: object.category
     })
     await newTopic.save()
 }

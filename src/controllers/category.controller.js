@@ -2,8 +2,8 @@ const categoryDomain = require('../domain/category.domain')
 
 exports.getAll = async function (req, res){
     try{
-        let categorysList = await categoryDomain.getAll();
-        res.status(200).json(categorysList)
+        let categoriesList = await categoryDomain.getAll();
+        res.status(200).json(categoriesList)
     } catch(error){
         res.status(404).json({
             message: error.message
