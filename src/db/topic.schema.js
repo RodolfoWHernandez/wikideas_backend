@@ -59,11 +59,13 @@ const topicSchema = new mongoose.Schema({
 const Topic = mongoose.model('Topic', topicSchema);
 
 //Get all Topics
-const getAll = async(limit)=>{
-    if(limit){
-        return await Topic.find().limit(limit).populate({path: 'category', select: 'title'})
-    }
-    return await Topic.find().populate({path: 'category', select: 'title'})
+const getAll = async(limit, skip)=>{
+    const l = Number(limit) || 5;
+    const s = Number(skip) || 0;
+    const topics = await Topic.find().skip(s).limit(l).populate({path: 'category', select: 'title'})
+    const totalTopics = await Topic.find().countDocuments()
+    return {topics, totalTopics}
+
 }
 
 //Get one Topic for id
