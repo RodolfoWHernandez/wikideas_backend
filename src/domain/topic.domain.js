@@ -1,8 +1,8 @@
 const topicModel = require('../db/topic.schema')
 
-exports.getAll = async function (limit) {
+exports.getAll = async function (page) {
     try{
-        let topicsList = await topicModel.getAll(limit);
+        let topicsList = await topicModel.getAll(page);
         return topicsList
     } catch(error){
         return null

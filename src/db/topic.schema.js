@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const counterId = require('./counter.schema')
-const Category = require('./category.schema')
 
-//const categories = ["Cultura y arte", "Filosofía y pensamiento", "Geografía", "Personas", "Tecnología", "Ciencias sociales", "Ciencias Naturales", "Política", "Religión"]
-
+const categories = ["Cultura y arte", "Filosofía y pensamiento", "Geografía", "Personas", "Tecnología", "Ciencias sociales", "Ciencias Naturales", "Política", "Religión"]
 //Schema Topic
 const topicSchema = new mongoose.Schema({
     _id: {
@@ -39,9 +37,10 @@ const topicSchema = new mongoose.Schema({
         required: true
     },
     category: {
-        type: Number,
-        ref: Category.Category,
-        required: true
+        type: String,
+        default: function () {
+            return categories[Math.floor(Math.random() * categories.length)]
+        }
     }
 },
 
@@ -52,24 +51,37 @@ const topicSchema = new mongoose.Schema({
 }
 )
 
-//Autopopulate
-//topicSchema.plugin(require('mongoose-autopopulate'))
-
 //Model topic
 const Topic = mongoose.model('Topic', topicSchema);
 
+
 //Get all Topics
-const getAll = async(limit)=>{
-    if(limit){
-        return await Topic.find().limit(limit).populate({path: 'category', select: 'title'})
-    }
-    return await Topic.find().populate({path: 'category', select: 'title'})
+const getAll = async(page)=>{
+    let perPage = 2;
+    let page1 = page || 1;
+
+    return await Topic
+    //traer todos 
+    .find()
+    //saltar pagina 
+    .skip((perPage * page1)- perPage)
+    .limit(perPage)
+    .populate({path: 'category', select: 'title'})
+  /*  Topic.count((err,count) => {
+        if(err) return next(err);
+        res.render('/api/v1',{
+            topics, 
+            //en que numero de pagina
+            current:page, 
+            //total de paginas
+            pages: Math.ceil(count / perPage)
+        })*/
 }
 
 //Get one Topic for id
 const get = async(object)=>{
     const filtro = {_id: Number(object.id)}
-    return await Topic.findOne(filtro).populate({path: 'category', select: 'title'})
+    return await Topic.findOne(filtro)  
 }
 
 //Create new Topic
@@ -81,8 +93,7 @@ const save = async(object)=>{
         description: object.description,
         image: object.image,
         tags: object.tags,
-        author: object.author,
-        category: object.category
+        author: object.author
     })
     await newTopic.save()
 }
