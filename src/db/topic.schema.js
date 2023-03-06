@@ -66,7 +66,7 @@ const getAll = async()=>{
 
 const pagination = async(skip, limit) => {
     const cantidad = Number(limit) || 5;
-    const page = Number(skip) || 0;
+    const page = Number(skip) || 1;
     const topics = await Topic.find().skip(cantidad*(page-1)).limit(cantidad).populate({path: 'category', select: 'title'})
     const totalTopics = await Topic.find().countDocuments()
     return { topics, totalTopics }
