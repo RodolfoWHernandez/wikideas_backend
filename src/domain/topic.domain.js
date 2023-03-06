@@ -4,7 +4,7 @@ exports.getAll = async function (skip, limit) {
     try{
         if(limit && skip !=null ){
             let topicsList = await topicModel.pagination(skip, limit);
-            return topicsList.topics
+            return topicsList
         }
         let topicsList = await topicModel.getAll();
         return topicsList
