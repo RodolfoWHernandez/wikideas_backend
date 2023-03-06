@@ -59,13 +59,17 @@ const topicSchema = new mongoose.Schema({
 const Topic = mongoose.model('Topic', topicSchema);
 
 //Get all Topics
-const getAll = async(limit, skip)=>{
-    const l = Number(limit) || 5;
-    const s = Number(skip) || 0;
-    const topics = await Topic.find().skip(s).limit(l).populate({path: 'category', select: 'title'})
-    const totalTopics = await Topic.find().countDocuments()
-    return {topics, totalTopics}
+const getAll = async()=>{
+    const topics = await Topic.find().populate({path: 'category', select: 'title'})
+    return topics
+}
 
+const pagination = async(skip, limit) => {
+    const cantidad = Number(limit) || 5;
+    const page = Number(skip) || 0;
+    const topics = await Topic.find().skip(cantidad*(page-1)).limit(cantidad).populate({path: 'category', select: 'title'})
+    const totalTopics = await Topic.find().countDocuments()
+    return { topics, totalTopics }
 }
 
 //Get one Topic for id
@@ -104,4 +108,4 @@ const delet = async(id, callback)=>{
     await Topic.deleteOne(filtro, callback)
 }
 
-module.exports = {Topic, getAll, get, save, update, delet}
+module.exports = {Topic, getAll, get, save, update, delet, pagination}
