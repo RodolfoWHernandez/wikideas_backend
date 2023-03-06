@@ -4,6 +4,7 @@ exports.getAll = async function (req, res){
     try{
         const { skip, limit } = req.query
         let topicsList = await topicDomain.getAll(skip, limit);
+        let cantidadTopics = topicsList.totalTopics;
         res.status(200).json(topicsList.topics)
     } catch(error){
         res.status(404).json({
