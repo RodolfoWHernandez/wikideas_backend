@@ -78,6 +78,14 @@ const get = async(object)=>{
     return await Topic.findOne(filtro).populate({path: 'category', select: 'title'})
 }
 
+//Get Topics for category id
+const getTopics = async(object)=>{
+    const filtro = {_id: Number(object.id)}
+    let topics = await Topic.find({'category': filtro})
+    return topics
+    
+}
+
 //Create new Topic
 const save = async(object)=>{
     const id = await counterId.counterId("topicid")
@@ -108,4 +116,4 @@ const delet = async(id, callback)=>{
     await Topic.deleteOne(filtro, callback)
 }
 
-module.exports = {Topic, getAll, get, save, update, delet, pagination}
+module.exports = {Topic, getAll, get, getTopics, save, update, delet, pagination}

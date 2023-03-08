@@ -5,7 +5,7 @@ exports.getAll = async function (req, res){
         const { skip, limit } = req.query
         let topicsList = await topicDomain.getAll(skip, limit);
         let cantidadTopics = topicsList.totalTopics;
-        res.status(200).json(topicsList.topics)
+        res.status(200).json(topicsList)
     } catch(error){
         res.status(404).json({
             message: error.message
@@ -20,6 +20,18 @@ exports.get = async function (req, res) {
             topic = "Not exist"
         }
         res.status(200).json(topic);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+exports.getTopics = async function (req, res) {
+    try {
+        let totalTopics = await topicDomain.getTopics(req.params);
+        if(totalTopics==null){
+            totalTopics = "Not found"
+        }
+        res.status(200).json(totalTopics);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -51,3 +63,5 @@ exports.delete = async function (req, res) {
         res.status(404).json({ message: error.message });
     }
 }
+
+
