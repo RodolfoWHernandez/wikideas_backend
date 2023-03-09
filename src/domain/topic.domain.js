@@ -8,7 +8,7 @@ exports.getAll = async function (skip, limit, category) {
         if(c != undefined){
             let topicsList = await topicModel.getTopicsByCategory(c)
             return topicsList
-        }else if (s != undefined && l != undefined){
+        }else if (s != undefined || l != undefined){
             let topicsList = await topicModel.pagination(s, l);
             return topicsList.topics
         }
