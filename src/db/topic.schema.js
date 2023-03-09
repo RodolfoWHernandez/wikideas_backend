@@ -79,8 +79,8 @@ const get = async(object)=>{
 }
 
 //Get Topics for category id
-const getTopics = async(object)=>{
-    const filtro = {_id: Number(object.id)}
+const getTopicsByCategory = async(object)=>{
+    const filtro = {_id: Number(object)}
     let topics = await Topic.find({'category': filtro})
     return topics
     
@@ -116,4 +116,4 @@ const delet = async(id, callback)=>{
     await Topic.deleteOne(filtro, callback)
 }
 
-module.exports = {Topic, getAll, get, getTopics, save, update, delet, pagination}
+module.exports = {Topic, getAll, get, getTopicsByCategory, save, update, delet, pagination}

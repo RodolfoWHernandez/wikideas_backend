@@ -1,14 +1,20 @@
 const topicModel = require('../db/topic.schema')
 
-exports.getAll = async function (skip, limit) {
+exports.getAll = async function (skip, limit, category) {
     try{
-        console.log("skip", skip, "limit", limit);
-        if(skip == undefined || limit == undefined){
-            let topicsList = await topicModel.getAll();
+        let s = skip;
+        let l = limit;
+        let c = category;
+        if(c != undefined){
+            let topicsList = await topicModel.getTopicsByCategory(c)
             return topicsList
+        }else if (s != undefined && l != undefined){
+            let topicsList = await topicModel.pagination(s, l);
+            return topicsList.topics
         }
-        let topicsList = await topicModel.pagination(skip, limit);
-        return topicsList.topics
+        let topicsList = await topicModel.getAll();
+        return topicsList
+        
     } catch(error){
         return null
     }
@@ -17,16 +23,7 @@ exports.getAll = async function (skip, limit) {
 exports.get = async function (topicObj) {
     try {
         const topic = await topicModel.get(topicObj)
-        return topic;
-    } catch (error) {
-        return null;
-    }
-}
-
-exports.getTopics = async function (topicObj) {
-    try {
-        const topics = await topicModel.getTopics(topicObj)
-        return topics;
+        return topic
     } catch (error) {
         return null;
     }
