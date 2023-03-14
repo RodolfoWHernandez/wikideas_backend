@@ -1,10 +1,9 @@
-const topicDomain = require('../domain/topic.domain')
+const categoryDomain = require('../domain/category.domain')
 
 exports.getAll = async function (req, res){
     try{
-        const { skip, limit, category } = req.query
-        let topicsList = await topicDomain.getAll(skip, limit, category);
-        res.status(200).json(topicsList)
+        let categoriesList = await categoryDomain.getAll();
+        res.status(200).json(categoriesList)
     } catch(error){
         res.status(404).json({
             message: error.message
@@ -14,11 +13,11 @@ exports.getAll = async function (req, res){
 
 exports.get = async function (req, res) {
     try {
-        let topic = await topicDomain.get(req.params);
-        if(topic==null){
-            topic = "Not exist"
+        let category = await categoryDomain.get(req.params);
+        if(category==null){
+            category = "Not exist"
         }
-        res.status(200).json(topic);
+        res.status(200).json(category);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -26,8 +25,8 @@ exports.get = async function (req, res) {
 
 exports.save = async function (req, res) {
     try {
-        const topic = topicDomain.save(req.body);
-        res.status(200).json(topic);
+        const category = categoryDomain.save(req.body);
+        res.status(200).json(category);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -35,8 +34,8 @@ exports.save = async function (req, res) {
 
 exports.update = async function (req, res) {
     try {
-        const topic = topicDomain.update(req.body);
-        res.status(200).json(topic);
+        const category = categoryDomain.update(req.body);
+        res.status(200).json(category);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -44,11 +43,9 @@ exports.update = async function (req, res) {
 
 exports.delete = async function (req, res) {
     try {
-        const topic = topicDomain.delete(req.params.id);
-        res.status(200).json(topic);
+        const category = categoryDomain.delete(req.params.id);
+        res.status(200).json(category);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
-
-
